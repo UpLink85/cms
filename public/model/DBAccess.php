@@ -19,18 +19,23 @@ class DBAccess
         $user = 'root';
         $password = 'root';
 
-
         $this->db = new PDO($dsn,$user,$password);
-
-        $this->test();
+//        $this->test();
     }
 
     private function test()
     {
         $result = $this->db->prepare('SELECT * FROM cms.login');
         $result->execute();
-        echo '<pre>';
-        var_dump($result->fetchAll());
-        echo '</pre>';
     }
+
+    public function getUsers()
+    {
+        $result = $this->db->prepare('SELECT * FROM cms.login');
+        $result->execute();
+        return $result->fetchAll();
+    }
+
+
+
 }
