@@ -58,5 +58,12 @@ class DBAccess
         $query->execute();
     }
 
+    public function removeUser($id)
+    {
+        $query = $this->db->prepare('DELETE FROM cms.login WHERE uid=:id');
+        $query->bindParam(':id',$id);
+        $query->execute();
+    }
+
 
 }

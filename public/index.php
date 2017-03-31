@@ -15,7 +15,8 @@ switch ($siteAction) {
         include __DIR__ . '/Login/login.html';
         break;
     case 'um':
-        include __DIR__ . '/UserManagment/userManagment.php';
+        $siteTitle = 'User Management';
+        include __DIR__ . '/UserManagement/userManagement.php';
         break;
     default:
 }

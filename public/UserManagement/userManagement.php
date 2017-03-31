@@ -15,16 +15,21 @@ $db = new DBAccess();
 if (isset($_POST['action']) && $_POST['action'] == 'addUser') {
     echo 'Inserted';
     var_dump($_POST);
-    $username = (isset($_POST['username']));
-    $vorname = (isset($_POST['prename']));
-    $nachname = (isset($_POST['name']));
-    $password = (isset($_POST['password']));
-    $view = (isset($_POST['view']));
-    $create = (isset($_POST['create']));
-    $delete = (isset($_POST['delete']));
+    $username = (isset($_POST['username']) ? $_POST['username'] : '');
+    $vorname = (isset($_POST['prename']) ? $_POST['prename'] : '');
+    $nachname = (isset($_POST['name']) ? $_POST['name'] : '');
+    $password = (isset($_POST['password']) ? $_POST['password'] : '');
+    $view = (isset($_POST['view']) ? $_POST['view'] : '0');
+    $create = (isset($_POST['create']) ? $_POST['create'] : '0');
+    $delete = (isset($_POST['delete']) ? $_POST['delete'] : '0');
     $db->insertNewUser($username, $vorname, $nachname, $password, $view, $create, $delete);
 
-    unset($_POST['action']);
+    unset($_POST);
+}
+
+if (isset($_GET['id'])) {
+    $id = (isset($_GET['id'])) ? $_GET['id'] : '';
+    $db->removeUser($id);
 }
 
 
@@ -49,7 +54,6 @@ $users = $db->getUsers();
             <tbody>
 
             <?php
-            $permission = '';
             foreach ($users as $item) {
                 echo '<tr>';
                 echo '<td>' . $item['uid'] . '</td>';
@@ -58,21 +62,21 @@ $users = $db->getUsers();
                 echo '<td>' . $item['nachname'] . '</td>';
                 echo '<td>' . $item['password'] . '</td>';
                 echo '<td>';
-
-                if ($item['view'] == 1) {
+                $permission = '';
+                if ($item['view'] == '1') {
                     $permission = 'view | ';
                 }
-                if ($item['create'] == 1) {
+                if ($item['create'] == '1') {
                     $permission .= 'create | ';
                 }
-                if ($item['delete'] == 1) {
+                if ($item['delete'] == '1') {
                     $permission .= 'delete';
                 }
                 echo $permission;
 
 
                 echo '</td>';
-                echo '<td><a style="padding-right: 20px" class="fa fa-pencil fa-"></a><a class="fa fa-times"></a></td>';
+                echo '<td><a style="padding-right: 20px" class="fa fa-pencil fa-"></a><a href="/index.php?siteAction=um&id=' . $item['uid'] . '" class="fa fa-times"></a></td>';
                 echo '</tr>';
             }
             ?>
