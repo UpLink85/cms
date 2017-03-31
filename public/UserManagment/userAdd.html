@@ -1,4 +1,4 @@
-<form class="form-group" action="../index.php" method="post">
+<form class="form-group" action="../index.php?siteAction=um" method="post">
     <h2 class="modal-header">Add New User</h2>
     <input type="hidden" name="action" value="addUser">
     <div class="col-sm-6">
@@ -29,13 +29,13 @@
     </div>
     <div class="col-sm-3">
         <div class="checkbox">
-            <label><input type="checkbox" value="1">View</label>
+            <label><input type="checkbox" name="view" id="view" value="1">View</label>
         </div>
         <div class="checkbox">
-            <label><input type="checkbox" value="1">Create</label>
+            <label><input type="checkbox" name="create" id="create" value="1">Create</label>
         </div>
         <div class="checkbox">
-            <label><input type="checkbox" value="1">Delete</label>
+            <label><input type="checkbox" name="delete" id="delete" value="1">Delete</label>
         </div>
 
     </div>

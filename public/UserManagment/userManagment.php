@@ -5,9 +5,27 @@
  * Date: 30.03.17
  * Time: 22:42
  */
+use model\DBAccess;
+
+include __DIR__ . '/../model/DBAccess.php';
 
 
 $db = new DBAccess();
+
+if (isset($_POST['action']) && $_POST['action'] == 'addUser') {
+    echo 'Inserted';
+    var_dump($_POST);
+    $username = (isset($_POST['username']));
+    $vorname = (isset($_POST['prename']));
+    $nachname = (isset($_POST['name']));
+    $password = (isset($_POST['password']));
+    $view = (isset($_POST['view']));
+    $create = (isset($_POST['create']));
+    $delete = (isset($_POST['delete']));
+    $db->insertNewUser($username, $vorname, $nachname, $password, $view, $create, $delete);
+
+    unset($_POST['action']);
+}
 
 
 $users = $db->getUsers();
@@ -44,10 +62,10 @@ $users = $db->getUsers();
                 if ($item['view'] == 1) {
                     $permission = 'view | ';
                 }
-                if ($item['create'] == 1){
+                if ($item['create'] == 1) {
                     $permission .= 'create | ';
                 }
-                if ($item['delete'] == 1){
+                if ($item['delete'] == 1) {
                     $permission .= 'delete';
                 }
                 echo $permission;

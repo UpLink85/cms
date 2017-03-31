@@ -1,5 +1,9 @@
 <?php
-namespace \model;
+
+namespace model;
+
+use PDO;
+
 
 /**
  * Created by PhpStorm.
@@ -20,7 +24,7 @@ class DBAccess
         $user = 'root';
         $password = 'root';
 
-        $this->db = new PDO($dsn,$user,$password);
+        $this->db = new PDO($dsn, $user, $password);
 //        $this->test();
     }
 
@@ -40,6 +44,19 @@ class DBAccess
         return $query->fetchAll();
     }
 
+    public function insertNewUser($username, $vorname, $nachname, $password, $view, $create, $delete)
+    {
+        $query = $this->db->prepare('INSERT INTO login (username, vorname, nachname, password, view, `create`, `delete`) 
+                                              VALUES (:username, :vorname,:nachname,:password,:view,:create,:delete);');
+        $query->bindParam(':username', $username);
+        $query->bindParam(':vorname', $vorname);
+        $query->bindParam(':nachname', $nachname);
+        $query->bindParam(':password', $password);
+        $query->bindParam(':view', $view);
+        $query->bindParam(':create', $create);
+        $query->bindParam(':delete', $delete);
+        $query->execute();
+    }
 
 
 }
