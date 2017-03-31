@@ -1,4 +1,5 @@
 <?php
+namespace \model;
 
 /**
  * Created by PhpStorm.
@@ -23,17 +24,20 @@ class DBAccess
 //        $this->test();
     }
 
-    private function test()
-    {
-        $result = $this->db->prepare('SELECT * FROM cms.login');
-        $result->execute();
-    }
-
     public function getUsers()
     {
         $result = $this->db->prepare('SELECT * FROM cms.login');
         $result->execute();
         return $result->fetchAll();
+    }
+
+    public function getUserDetail($username, $password)
+    {
+        $query = $this->db->prepare('SELECT * FROM cms.login t1 WHERE t1.username = :username AND t1.password = :password');
+        $query->bindParam(':username', $username);
+        $query->bindParam(':password', $password);
+        $query->execute();
+        return $query->fetchAll();
     }
 
 
