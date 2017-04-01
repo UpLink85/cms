@@ -1,4 +1,6 @@
 <?php
+use model\DBAccess;
+include __DIR__ . '/../model/DBAccess.php';
 
 /**
  * Created by PhpStorm.
@@ -8,7 +10,7 @@
  */
 class LoginController
 {
-    private $db;
+    private $db = '';
 
 
     function __construct()
@@ -16,9 +18,11 @@ class LoginController
         $this->db = new DBAccess();
     }
 
-    private function loginUser($username, $password)
+    public function loginUser($username, $password)
     {
-
+        if ($this->db->loginUser($username, $password)){
+            $_SESSION['admin'] = true;
+        };
     }
 
 }

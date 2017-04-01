@@ -38,7 +38,8 @@ class DBAccess
         $this->db->commit();
     }
 
-    public function rollBack(){
+    public function rollBack()
+    {
         $this->db->rollBack();
     }
 
@@ -63,9 +64,9 @@ class DBAccess
         $query = $this->db->prepare('SELECT * FROM cms.login WHERE username = :username');
         $query->bindParam(':username', $username);
         $query->execute();
-        if ($query->rowCount() > 0){
+        if ($query->rowCount() > 0) {
             return false;
-        }else{
+        } else {
             return true;
         }
     }
@@ -77,6 +78,7 @@ class DBAccess
         $query->bindParam(':username', $username);
         $query->bindParam(':vorname', $vorname);
         $query->bindParam(':nachname', $nachname);
+        $password = md5($password);
         $query->bindParam(':password', $password);
         $query->bindParam(':view', $view);
         $query->bindParam(':create', $create);
@@ -87,9 +89,22 @@ class DBAccess
     public function removeUser($id)
     {
         $query = $this->db->prepare('DELETE FROM cms.login WHERE uid=:id');
-        $query->bindParam(':id',$id);
+        $query->bindParam(':id', $id);
         $query->execute();
     }
 
+    public function loginUser($username, $password)
+    {
+        $query = $this->db->prepare('SELECT * FROM cms.login WHERE username = :username AND password = :password');
+        $query->bindParam(':username', $username);
+        $password = md5($password);
+        $query->bindParam(':password', $password);
+        $result = $query->execute();
+        if ($result > 0){
+            return true;
+        }else{
+            return false;
+        }
+    }
 
 }

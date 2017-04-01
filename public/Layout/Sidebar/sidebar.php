@@ -6,4 +6,8 @@
  * Time: 23:07
  */
 
-include __DIR__ . '/sidebar.html';
+
+
+//if (isset($_SESSION['admin']) && $_SESSION['admin'] == true) {
+    include __DIR__ . '/sidebar.html';
+//}

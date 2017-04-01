@@ -2,13 +2,12 @@
 /**
  * Created by PhpStorm.
  * User: Stefano Zizza
- * Date: 30.03.17
- * Time: 22:42
+ * Date: 15.03.17
+ * Time: 19:42
  */
 use model\DBAccess;
 
 include __DIR__ . '/../model/DBAccess.php';
-
 
 $db = new DBAccess();
 
@@ -35,9 +34,10 @@ if (isset($_POST['action']) && $_POST['action'] == 'addUser') {
     unset($_POST);
 }
 
-if (isset($_GET['id'])) {
-    $id = (isset($_GET['id'])) ? $_GET['id'] : '';
+if (isset($_GET['deleteid'])) {
+    $id = (isset($_GET['deleteid'])) ? $_GET['deleteid'] : '';
     $db->removeUser($id);
+
 }
 $users = $db->getUsers();
 ?>
@@ -58,7 +58,6 @@ $users = $db->getUsers();
             </tr>
             </thead>
             <tbody>
-
             <?php
             foreach ($users as $item) {
                 echo '<tr>';
@@ -79,10 +78,8 @@ $users = $db->getUsers();
                     $permission .= 'delete';
                 }
                 echo $permission;
-
-
                 echo '</td>';
-                echo '<td><!--<a style="padding-right: 20px" class="fa fa-pencil fa-"></a>--><a href="/index.php?siteAction=um&id=' . $item['uid'] . '" class="fa fa-times"></a></td>';
+                echo '<td><!--<a style="padding-right: 20px" class="fa fa-pencil fa-"></a>--><a href="/index.php?siteAction=um&deleteid=' . $item['uid'] . '" class="fa fa-times"></a></td>';
                 echo '</tr>';
             }
             ?>
