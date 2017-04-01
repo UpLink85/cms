@@ -13,8 +13,6 @@ include __DIR__ . '/../model/DBAccess.php';
 $db = new DBAccess();
 
 if (isset($_POST['action']) && $_POST['action'] == 'addUser') {
-    echo 'Inserted';
-    var_dump($_POST);
     $username = (isset($_POST['username']) ? $_POST['username'] : '');
     $vorname = (isset($_POST['prename']) ? $_POST['prename'] : '');
     $nachname = (isset($_POST['name']) ? $_POST['name'] : '');
@@ -22,8 +20,18 @@ if (isset($_POST['action']) && $_POST['action'] == 'addUser') {
     $view = (isset($_POST['view']) ? $_POST['view'] : '0');
     $create = (isset($_POST['create']) ? $_POST['create'] : '0');
     $delete = (isset($_POST['delete']) ? $_POST['delete'] : '0');
-    $db->insertNewUser($username, $vorname, $nachname, $password, $view, $create, $delete);
-
+    try {
+        $db->beginnTransaction();
+        if ($db->checkUsernameAvailability($username)) {
+            $db->insertNewUser($username, $vorname, $nachname, $password, $view, $create, $delete);
+            $db->commitChanges();
+        } else {
+            throw new PDOException('Username already exists');
+        }
+    } catch (PDOException $e) {
+        $message = $e->getMessage();
+        $db->rollBack();
+    }
     unset($_POST);
 }
 
@@ -31,8 +39,6 @@ if (isset($_GET['id'])) {
     $id = (isset($_GET['id'])) ? $_GET['id'] : '';
     $db->removeUser($id);
 }
-
-
 $users = $db->getUsers();
 ?>
 
@@ -76,12 +82,15 @@ $users = $db->getUsers();
 
 
                 echo '</td>';
-                echo '<td><a style="padding-right: 20px" class="fa fa-pencil fa-"></a><a href="/index.php?siteAction=um&id=' . $item['uid'] . '" class="fa fa-times"></a></td>';
+                echo '<td><!--<a style="padding-right: 20px" class="fa fa-pencil fa-"></a>--><a href="/index.php?siteAction=um&id=' . $item['uid'] . '" class="fa fa-times"></a></td>';
                 echo '</tr>';
             }
             ?>
             </tbody>
         </table>
+    </div>
+    <div class="text-danger">
+        <h4><?= (isset($message)) ? $message : '' ?></h4>
     </div>
     <?php include __DIR__ . '/userAdd.html'; ?>
 </div>

@@ -28,6 +28,20 @@ class DBAccess
 //        $this->test();
     }
 
+    public function beginnTransaction()
+    {
+        $this->db->beginTransaction();
+    }
+
+    public function commitChanges()
+    {
+        $this->db->commit();
+    }
+
+    public function rollBack(){
+        $this->db->rollBack();
+    }
+
     public function getUsers()
     {
         $result = $this->db->prepare('SELECT * FROM cms.login');
@@ -42,6 +56,18 @@ class DBAccess
         $query->bindParam(':password', $password);
         $query->execute();
         return $query->fetchAll();
+    }
+
+    public function checkUsernameAvailability($username)
+    {
+        $query = $this->db->prepare('SELECT * FROM cms.login WHERE username = :username');
+        $query->bindParam(':username', $username);
+        $query->execute();
+        if ($query->rowCount() > 0){
+            return false;
+        }else{
+            return true;
+        }
     }
 
     public function insertNewUser($username, $vorname, $nachname, $password, $view, $create, $delete)
