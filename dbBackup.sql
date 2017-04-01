@@ -44,6 +44,52 @@ LOCK TABLES `login` WRITE;
 INSERT INTO `login` VALUES (22,'test','kjashd','kjahsdk','52399ab15809382c6c8ffdaaea1d656a',0,0,0);
 /*!40000 ALTER TABLE `login` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Table structure for table `seiten`
+--
+
+DROP TABLE IF EXISTS `seiten`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `seiten` (
+  `seitenId` int(11) NOT NULL,
+  `titel` varchar(50) NOT NULL,
+  `content` varchar(250) NOT NULL,
+  PRIMARY KEY (`seitenId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `seiten`
+--
+
+LOCK TABLES `seiten` WRITE;
+/*!40000 ALTER TABLE `seiten` DISABLE KEYS */;
+/*!40000 ALTER TABLE `seiten` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `zt_user_seiten`
+--
+
+DROP TABLE IF EXISTS `zt_user_seiten`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `zt_user_seiten` (
+  `FKuserId` int(11) NOT NULL,
+  `FKseitenId` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `zt_user_seiten`
+--
+
+LOCK TABLES `zt_user_seiten` WRITE;
+/*!40000 ALTER TABLE `zt_user_seiten` DISABLE KEYS */;
+/*!40000 ALTER TABLE `zt_user_seiten` ENABLE KEYS */;
+UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -54,4 +100,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-04-01  5:15:28
+-- Dump completed on 2017-04-01  5:52:56
